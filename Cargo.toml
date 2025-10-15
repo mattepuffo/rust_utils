@@ -1,0 +1,8 @@
+[package]
+name = "rust_utils"
+version = "1.0.0"
+edition = "2024"
+
+[dependencies]
+bytes = "1.10.1"
+tokio = { version = "1.48.0", features = ["full"] }
