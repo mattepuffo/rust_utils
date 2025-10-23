@@ -7,3 +7,4 @@ edition = "2024"
 bytes = "1.10.1"
 image = "0.25.8"
 tokio = { version = "1.48.0", features = ["full"] }
+chrono = { version = "0.4.42", features = ["serde"] }

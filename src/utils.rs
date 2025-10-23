@@ -1,6 +1,8 @@
+use chrono::Datelike;
 use bytes::Bytes;
 use std::path::Path;
 use std::{fs, io::Write};
+use chrono::{Local, NaiveDate};
 use image::codecs::gif::GifEncoder;
 use image::codecs::jpeg::JpegEncoder;
 use image::codecs::png::PngEncoder;
@@ -217,4 +219,33 @@ pub async fn save_uploaded_image(
     })
         .await
         .map_err(|e| format!("Errore thread: {}", e))?
+}
+
+/// Calcola i giorni presenti in un anno
+fn days_in_year(year: i32) -> u32 {
+    let mut days = 0;
+
+    for month in 1..=12 {
+        let first_of_month = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
+
+        let (next_year, next_month) = if month == 12 {
+            (year + 1, 1)
+        } else {
+            (year, month + 1)
+        };
+        let first_of_next_month = NaiveDate::from_ymd_opt(next_year, next_month, 1).unwrap();
+
+        let days_in_month = (first_of_next_month - first_of_month).num_days() as u32;
+
+        days += days_in_month;
+    }
+
+    days
+}
+
+/// Calcola i giorni passati dal primo gennaio dell'anno corrente
+fn days_passed_from_start_year() -> i64 {
+    let today = Local::now().date_naive();
+    let start_of_year = NaiveDate::from_ymd_opt(today.year(), 1, 1).expect("Data non valida");
+    (today - start_of_year).num_days()
 }
