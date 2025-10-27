@@ -222,7 +222,7 @@ pub async fn save_uploaded_image(
 }
 
 /// Calcola i giorni presenti in un anno
-fn days_in_year(year: i32) -> u32 {
+pub fn days_in_year(year: i32) -> u32 {
     let mut days = 0;
 
     for month in 1..=12 {
@@ -244,7 +244,7 @@ fn days_in_year(year: i32) -> u32 {
 }
 
 /// Calcola i giorni passati dal primo gennaio dell'anno corrente
-fn days_passed_from_start_year() -> i64 {
+pub fn days_passed_from_start_year() -> i64 {
     let today = Local::now().date_naive();
     let start_of_year = NaiveDate::from_ymd_opt(today.year(), 1, 1).expect("Data non valida");
     (today - start_of_year).num_days()
