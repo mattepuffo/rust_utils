@@ -6,6 +6,10 @@ Nel Cargo.toml metterò le varie dipendenze necessarie
 
 ## Changelog
 
+### 1.0.3
+- aggiunta funzione **parse_date_ddmmyyyy**
+- aggiunta funzione **extract_year**
+
 ### 1.0.2
 - aggiunta funzione **days_in_year**
 - aggiunta funzione **days_passed_from_start_year**

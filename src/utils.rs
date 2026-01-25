@@ -249,3 +249,22 @@ pub fn days_passed_from_start_year() -> i64 {
     let start_of_year = NaiveDate::from_ymd_opt(today.year(), 1, 1).expect("Data non valida");
     (today - start_of_year).num_days()
 }
+
+/// Converte la data passata nel formato dd/mm/yyyy in una struttura NaiveDate
+pub fn parse_date_ddmmyyyy(s: &str) -> Option<NaiveDate> {
+    let parts: Vec<&str> = s.split('/').collect();
+    if parts.len() != 3 {
+        return None;
+    }
+
+    let day = parts[0].parse::<u32>().ok()?;
+    let month = parts[1].parse::<u32>().ok()?;
+    let year = parts[2].parse::<i32>().ok()?;
+
+    NaiveDate::from_ymd_opt(year, month, day)
+}
+
+/// Estrae l'anno da una data YYYY-MM-DD
+pub fn extract_year(date: Option<NaiveDate>) -> Option<i32> {
+    date.map(|d| d.year())
+}
