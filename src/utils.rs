@@ -1,7 +1,9 @@
 use chrono::Datelike;
 use bytes::Bytes;
 use std::path::Path;
-use std::{fs, io::Write};
+use std::{fs, io, io::Write};
+use std::fs::File;
+use std::io::Read;
 use chrono::{Local, NaiveDate};
 use image::codecs::gif::GifEncoder;
 use image::codecs::jpeg::JpegEncoder;
@@ -267,4 +269,41 @@ pub fn parse_date_ddmmyyyy(s: &str) -> Option<NaiveDate> {
 /// Estrae l'anno da una data YYYY-MM-DD
 pub fn extract_year(date: Option<NaiveDate>) -> Option<i32> {
     date.map(|d| d.year())
+}
+
+/// Confronta il contenuto di due files
+pub fn files_are_equal(path1: &str, path2: &str) -> io::Result<bool> {
+    let file1 = fs::read_to_string(path1)?;
+    let file2 = fs::read_to_string(path2)?;
+
+    Ok(file1.trim() == file2.trim())
+}
+
+/// Confronta il contenuto di due files
+/// Da usare principalmente con file di grandi dimensioni
+pub fn files_big_are_equal(path1: &str, path2: &str) -> io::Result<bool> {
+    let mut f1 = File::open(path1)?;
+    let mut f2 = File::open(path2)?;
+
+    let mut buf1 = [0u8; 8192];
+    let mut buf2 = [0u8; 8192];
+
+    loop {
+        let n1 = f1.read(&mut buf1)?;
+        let n2 = f2.read(&mut buf2)?;
+
+        if n1 != n2 {
+            return Ok(false);
+        }
+
+        if n1 == 0 {
+            break;
+        }
+
+        if buf1[..n1] != buf2[..n2] {
+            return Ok(false);
+        }
+    }
+
+    Ok(true)
 }

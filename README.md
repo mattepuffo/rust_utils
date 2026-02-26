@@ -6,6 +6,10 @@ Nel Cargo.toml metterò le varie dipendenze necessarie
 
 ## Changelog
 
+### 1.0.4
+- aggiunta funzione **files_are_equal**
+- aggiunta funzione **files_big_are_equal**
+
 ### 1.0.3
 - aggiunta funzione **parse_date_ddmmyyyy**
 - aggiunta funzione **extract_year**
